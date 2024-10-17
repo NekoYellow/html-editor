@@ -9,11 +9,7 @@ class Node(ABC):
         ...
     
     @abstractmethod
-    def label(self):
-        ...
-        
-    @abstractmethod
-    def content(self):
+    def __str__(self):
         ...
 
 
