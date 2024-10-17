@@ -26,7 +26,9 @@ class MyHtmlParser(HTMLParser):
 
     def handle_data(self, data):
         # print("Encountered some data  :", data)
-        self.stack[-1].add_child(HtmlNode(data, None))
+        curr = HtmlNode(data, None)
+        curr.is_text = True
+        self.stack[-1].add_child(curr)
         # self.stack[-1].text = data
     
     def get_tree(self):
