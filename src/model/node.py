@@ -39,10 +39,13 @@ class HtmlNode(Node):
     def children(self):
         return self._children
     
-    def add_child(self, child):
+    def add_child(self, child, index=-1):
         if not isinstance(child, self.__class__):
             raise TypeError("child added should be HtmlNode")
-        self._children.append(child)
+        if index == -1:
+            self._children.append(child)
+        else:
+            self._children.insert(index, child)
     
     def del_child(self, child):
         try:

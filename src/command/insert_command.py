@@ -10,11 +10,6 @@ class InsertCommand(UndoableCommand):
 
     def __init__(self, html, tag, id, target, text=""):
         self.html = html
-        # self.node = HtmlNode(tag, id)
-        # if text != "":
-        #     text_node = HtmlNode(text)
-        #     text_node.is_text = True
-        #     self.node.add_child(text_node)
         self.tag = tag
         self.id = id
         self.target = target

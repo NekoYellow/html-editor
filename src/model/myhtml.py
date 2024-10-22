@@ -22,16 +22,31 @@ class Html:
             parser = MyHtmlParser()
             parser.feed(init_str)
             self.root = parser.get_tree()
-        # id -> node mapping
-        self.id2node = {}
+        
+        self.id2node = {} # id -> node
+        self.parent = {} # node -> parent
         def dfs(u):
             self.id2node[u.id if u.id != None else self._tag2id(u.tag)] = u
             for v in u.children:
+                self.parent[v] = u
                 dfs(v)
         dfs(self.root)
     
     def insert(self, tag, id, text, target):
-        ...
+        if self.id2node.get(id, None) != None:
+            raise ValueError(f"id {id} already exists")
+        if self.id2node.get(target, None) == None:
+            raise ValueError(f"target {target} does not exist")
+        tar = self.id2node[target]
+        if self.parent.get(tar, None) == None:
+            raise ValueError(f"cannot insert before target {target}")
+
+        node = HtmlNode(tag, id)
+        if text != "":
+            text_node = HtmlNode(text)
+            text_node.is_text = True
+            node.add_child(text_node)
+        self.parent[tar].add_child(node, self.parent[tar].children.index(node))
     
     def as_tree(self):
         visitor = TreeVisitor()
@@ -45,9 +60,3 @@ class Html:
     
     def _tag2id(self, t):
         return sha512(t.encode()).hexdigest()
-
-
-if __name__ == "__main__":
-    ht = Html("sample.html")
-    print(ht.as_tree())
-    print(ht.as_text())
