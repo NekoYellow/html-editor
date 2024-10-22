@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 
+"""Interface of Command pattern"""
+
+
 class Command(ABC):
     @abstractmethod
     def execute(self):

@@ -1,7 +1,8 @@
-from my_html import Html
+from myhtml.tree import HtmlTree
+
 
 if __name__ == "__main__":
-    html = Html()
+    html = HtmlTree()
     invoker = CommandInvoker()
     while True:
         print("Enter Command: ")
