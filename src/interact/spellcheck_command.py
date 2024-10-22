@@ -10,6 +10,6 @@ class SpellCheckCommand(Command):
 
     def __init__(self, html):
         self.html = html
-        
+    
     def execute(self):
         print(self.html.spell_check())

@@ -7,6 +7,7 @@ from model.parser import MyHtmlParser
 from model.node import HtmlNode
 from model.tree_visitor import TreeVisitor
 from model.html_visitor import HtmlVisitor
+from model.spellcheck_visitor import SpellcheckVisitor
 
 
 class Html:
@@ -77,6 +78,11 @@ class Html:
     
     def as_text(self, indent):
         visitor = HtmlVisitor(indent)
+        self.root.accept(visitor)
+        return visitor.get_content()
+    
+    def spell_check(self):
+        visitor = SpellcheckVisitor()
         self.root.accept(visitor)
         return visitor.get_content()
     
