@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from command.command import Command, UndoableCommand
 
-class Invoker:
+class CommandInvoker:
     def __init__(self):
         self.done = []
         self.undone = []

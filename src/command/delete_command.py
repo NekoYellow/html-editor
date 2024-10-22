@@ -17,4 +17,4 @@ class DeleteCommand(UndoableCommand):
         self.html.remove(self.id)
 
     def undo(self):
-        self.html.append(self.node, self.parent)
+        self.html.append_(self.node, self.parent)

@@ -2,14 +2,14 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from model.myhtml import Html
-from command.invoker import Invoker
-from interact.parser import Parser
+from command.invoker import CommandInvoker
+from interact.parser import CommandParser
 
 
 if __name__ == "__main__":
     html = Html()
-    parser = Parser(html)
-    invoker = Invoker()
+    parser = CommandParser(html)
+    invoker = CommandInvoker()
     while True:
         print("Enter Command: ")
         cmd_str = input().strip()

@@ -16,7 +16,7 @@ class AppendCommand(UndoableCommand):
         self.text = text
     
     def execute(self):
-        self.html.insert(self.tag, self.id, self.text, self.parent)
+        self.html.append(self.tag, self.id, self.text, self.parent)
     
     def undo(self):
         self.html.remove(self.id)

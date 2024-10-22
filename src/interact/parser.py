@@ -12,7 +12,7 @@ from interact.show_command import ShowCommand
 from interact.spellcheck_command import SpellCheckCommand
 
 
-class Parser:
+class CommandParser:
     def __init__(self, html):
         self.html = html
 
