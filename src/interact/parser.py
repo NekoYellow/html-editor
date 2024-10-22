@@ -8,8 +8,8 @@ from command.append_command import AppendCommand
 from command.editid_command import EditidCommand
 from command.edittext_command import EdittextCommand
 from command.delete_command import DeleteCommand
-from console.show_command import ShowCommand
-from console.spellcheck_command import SpellCheckCommand
+from interact.show_command import ShowCommand
+from interact.spellcheck_command import SpellCheckCommand
 
 
 class Parser:
@@ -52,4 +52,4 @@ class Parser:
                 raise ValueError("spell-check")
             return SpellCheckCommand(self.html)
         else:
-            raise ValueError("unknown command:", *parts)
+            raise ValueError(" ".join(["unknown command:", *parts]))

@@ -2,7 +2,7 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from command.command import Command
-from model.myhtml import HtmlTree
+from model.myhtml import Html
 
 
 class ShowCommand(Command):

@@ -18,12 +18,12 @@ class Html:
                     ),
                     HtmlNode("body", "body")
                 )
-    
-    def __init__(self):
-        self.root = self._default()
-        self.ids = set(self.PRIMARY_TAGS)
 
-    def __init__(self, filename):
+    def __init__(self, filename=""):
+        if filename == "":
+            self.root = self._default()
+            self.ids = set(self.PRIMARY_TAGS)
+            return
         try:
             with open(filename, 'r') as f:
                 html_str = ""
