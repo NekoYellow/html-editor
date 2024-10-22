@@ -7,7 +7,7 @@ from model.tree_visitor import TreeVisitor
 from model.html_visitor import HtmlVisitor
 
 
-class HtmlTree:
+class Html:
     PRIMARY_TAGS = ("html", "head", "title", "body")
 
     @staticmethod
@@ -38,18 +38,18 @@ class HtmlTree:
         self.root = parser.get_tree()
         self.ids = parser.get_ids()
     
-    def show_as_tree(self):
+    def as_tree(self):
         visitor = TreeVisitor()
         self.root.accept(visitor)
-        print(visitor.get_content())
+        return visitor.get_content()
     
-    def show_as_text(self):
+    def as_text(self):
         visitor = HtmlVisitor()
         self.root.accept(visitor)
-        print(visitor.get_content())
+        return visitor.get_content()
 
 
 if __name__ == "__main__":
-    ht = HtmlTree("sample.html")
-    ht.show_as_tree()
-    ht.show_as_text()
+    ht = Html("sample.html")
+    print(ht.as_tree())
+    print(ht.as_text())
