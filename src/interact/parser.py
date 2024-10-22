@@ -10,6 +10,8 @@ from command.edittext_command import EdittextCommand
 from command.delete_command import DeleteCommand
 from interact.show_command import ShowCommand
 from interact.spellcheck_command import SpellCheckCommand
+from file.read_command import ReadCommand
+from file.save_command import SaveCommand
 
 
 class CommandParser:
@@ -51,5 +53,13 @@ class CommandParser:
             if len(parts) != 1:
                 raise ValueError("spell-check")
             return SpellCheckCommand(self.html)
+        elif cmd == "read":
+            if len(parts) != 2:
+                raise ValueError("read filepath")
+            return ReadCommand(*args)
+        elif cmd == "save":
+            if len(parts) != 2:
+                raise ValueError("save filepath")
+            return SaveCommand(*args)
         else:
             raise ValueError(" ".join(["unknown command:", *parts]))

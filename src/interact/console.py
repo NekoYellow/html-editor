@@ -15,6 +15,9 @@ if __name__ == "__main__":
         cmd_str = input().strip()
         if cmd_str == "exit":
             break
+        elif cmd_str == "init":
+            html = Html()
+            continue
         try:
             cmd = parser.parse(cmd_str)
             invoker.store_and_execute(cmd)

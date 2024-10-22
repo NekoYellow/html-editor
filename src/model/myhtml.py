@@ -10,27 +10,22 @@ from model.html_visitor import HtmlVisitor
 
 
 class Html:
-    def __init__(self, init_str=""):
-        if init_str == "":
-            self.root = HtmlNode("html", None,
-                            HtmlNode("head", None,
-                                HtmlNode("title", None)
-                            ),
-                            HtmlNode("body", None)
-                        )
-        else:
-            parser = MyHtmlParser()
-            parser.feed(init_str)
-            self.root = parser.get_tree()
-        
+    def __init__(self):
         self.id2node = {} # id -> node
         self.parent = {} # node -> parent
-        def dfs(u):
-            self.id2node[u.id if u.id != None else self._tag2id(u.tag)] = u
-            for v in u.children:
-                self.parent[v] = u
-                dfs(v)
-        dfs(self.root)
+        self.root = HtmlNode("html", None,
+                        HtmlNode("head", None,
+                            HtmlNode("title", None)
+                        ),
+                        HtmlNode("body", None)
+                    )
+        self._get_mappings()
+
+    def set(self, html_str):
+        parser = MyHtmlParser()
+        parser.feed(html_str)
+        self.root = parser.get_tree()
+        self._get_mappings()
     
     def insert(self, tag, id, text, target):
         if self.id2node.get(id, None) != None:
@@ -84,6 +79,16 @@ class Html:
         visitor = HtmlVisitor()
         self.root.accept(visitor)
         return visitor.get_content()
+    
+    def _get_mappings(self):
+        self.id2node.clear()
+        self.parent.clear()
+        def dfs(u):
+            self.id2node[u.id if u.id != None else self._tag2id(u.tag)] = u
+            for v in u.children:
+                self.parent[v] = u
+                dfs(v)
+        dfs(self.root)
     
     def _tag2id(self, t):
         return sha512(t.encode()).hexdigest()
