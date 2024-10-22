@@ -1,3 +1,5 @@
+from hashlib import sha512
+
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -8,35 +10,36 @@ from model.html_visitor import HtmlVisitor
 
 
 class Html:
-    PRIMARY_TAGS = ("html", "head", "title", "body")
-
-    @staticmethod
-    def _default():
-        return HtmlNode("html", "html",
-                    HtmlNode("head", "head",
-                        HtmlNode("title", "title")
-                    ),
-                    HtmlNode("body", "body")
-                )
-
     def __init__(self, filename=""):
         if filename == "":
-            self.root = self._default()
-            self.ids = set(self.PRIMARY_TAGS)
-            return
-        try:
-            with open(filename, 'r') as f:
-                html_str = ""
-                for line in f.readlines():
-                    html_str += line.strip()
-        except FileNotFoundError as e:
-            print(e)
-            return
-        parser = MyHtmlParser()
-        parser.feed(html_str)
-        
-        self.root = parser.get_tree()
-        self.ids = parser.get_ids()
+            self.root = HtmlNode("html", None,
+                            HtmlNode("head", None,
+                                HtmlNode("title", None)
+                            ),
+                            HtmlNode("body", None)
+                        )
+        else:
+            try:
+                with open(filename, 'r') as f:
+                    html_str = ""
+                    for line in f.readlines():
+                        html_str += line.strip()
+            except FileNotFoundError as e:
+                print(e)
+                return
+            parser = MyHtmlParser()
+            parser.feed(html_str)
+            self.root = parser.get_tree()
+        # id -> node mapping
+        self.id2node = {}
+        def dfs(u):
+            self.id2node[u.id if u.id != None else self._tag2id(u.tag)] = u
+            for v in u.children:
+                dfs(v)
+        dfs(self.root)
+    
+    def insert(self, tag, id, text, target):
+        ...
     
     def as_tree(self):
         visitor = TreeVisitor()
@@ -47,6 +50,9 @@ class Html:
         visitor = HtmlVisitor()
         self.root.accept(visitor)
         return visitor.get_content()
+    
+    def _tag2id(self, t):
+        return sha512(t.encode()).hexdigest()
 
 
 if __name__ == "__main__":

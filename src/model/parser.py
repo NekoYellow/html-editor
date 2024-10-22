@@ -9,9 +9,8 @@ from model.node import HtmlNode
 class MyHtmlParser(HTMLParser):
     def __init__(self):
         super().__init__()
-        self.root = HtmlNode("", "")
+        self.root = HtmlNode("", "") # dummy root
         self.stack = [self.root]
-        self.ids = set()
     
     def handle_starttag(self, tag, attrs):
         # print("Encountered a start tag:", tag)
@@ -19,7 +18,6 @@ class MyHtmlParser(HTMLParser):
         for k, v in attrs:
             if k == "id":
                 key = v
-        self.ids.add(key if key != None else tag)
         curr = HtmlNode(tag, key)
         self.stack[-1].add_child(curr)
         self.stack.append(curr)
@@ -33,11 +31,6 @@ class MyHtmlParser(HTMLParser):
         curr = HtmlNode(data, None)
         curr.is_text = True
         self.stack[-1].add_child(curr)
-        # self.stack[-1].text = data
     
     def get_tree(self):
         return self.root.children[0]
-
-    def get_ids(self):
-        return self.ids
-
