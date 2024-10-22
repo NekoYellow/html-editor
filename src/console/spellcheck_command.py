@@ -5,7 +5,7 @@ from command.command import Command
 from model.myhtml import Html
 
 
-class EditidCommand(Command):
+class SpellCheckCommand(Command):
     """Do spell check on texts of elements in html"""
 
     def __init__(self, html):
