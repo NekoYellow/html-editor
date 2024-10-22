@@ -48,6 +48,33 @@ class Html:
             node.add_child(text_node)
         self.parent[tar].add_child(node, self.parent[tar].children.index(node))
     
+    def append(self, tag, id, text, target):
+        if self.id2node.get(id, None) != None:
+            raise ValueError(f"id {id} already exists")
+        if self.id2node.get(target, None) == None:
+            raise ValueError(f"target {target} does not exist")
+
+        node = HtmlNode(tag, id)
+        if text != "":
+            text_node = HtmlNode(text)
+            text_node.is_text = True
+            node.add_child(text_node)
+        self.id2node[target].add_child(node)
+    
+    def append_(self, node, target): # undo delete
+        target.add_child(node)
+    
+    def remove(self, target):
+        if self.id2node.get(target, None) == None:
+            raise ValueError(f"target {target} does not exist")
+        self.parent[target].del_child(target)
+    
+    def find(self, target):
+        if self.id2node.get(target, None) == None:
+            raise ValueError(f"target {target} does not exist")
+        node = self.id2node[target]
+        return node, self.parent[node]
+    
     def as_tree(self):
         visitor = TreeVisitor()
         self.root.accept(visitor)
