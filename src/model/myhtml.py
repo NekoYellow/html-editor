@@ -10,8 +10,8 @@ from model.html_visitor import HtmlVisitor
 
 
 class Html:
-    def __init__(self, filename=""):
-        if filename == "":
+    def __init__(self, init_str=""):
+        if init_str == "":
             self.root = HtmlNode("html", None,
                             HtmlNode("head", None,
                                 HtmlNode("title", None)
@@ -19,16 +19,8 @@ class Html:
                             HtmlNode("body", None)
                         )
         else:
-            try:
-                with open(filename, 'r') as f:
-                    html_str = ""
-                    for line in f.readlines():
-                        html_str += line.strip()
-            except FileNotFoundError as e:
-                print(e)
-                return
             parser = MyHtmlParser()
-            parser.feed(html_str)
+            parser.feed(init_str)
             self.root = parser.get_tree()
         # id -> node mapping
         self.id2node = {}
