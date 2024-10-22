@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from util.visitor import Node
+from model.visitor import Node
 
 
 class HtmlNode(Node):

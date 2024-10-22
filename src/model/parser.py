@@ -3,7 +3,7 @@ from html.parser import HTMLParser
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from myhtml.node import HtmlNode
+from model.node import HtmlNode
 
 
 class MyHtmlParser(HTMLParser):

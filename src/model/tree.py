@@ -1,10 +1,10 @@
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from myhtml.parser import MyHtmlParser
-from myhtml.node import HtmlNode
-from util.tree_visitor import TreeVisitor
-from util.html_visitor import HtmlVisitor
+from model.parser import MyHtmlParser
+from model.node import HtmlNode
+from model.tree_visitor import TreeVisitor
+from model.html_visitor import HtmlVisitor
 
 
 class HtmlTree:

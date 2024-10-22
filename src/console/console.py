@@ -1,4 +1,7 @@
-from myhtml.tree import HtmlTree
+import os, sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from model.tree import HtmlTree
 
 
 if __name__ == "__main__":
