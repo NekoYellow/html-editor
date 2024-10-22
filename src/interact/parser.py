@@ -42,9 +42,9 @@ class CommandParser:
                 raise ValueError("delete element")
             return DeleteCommand(*args)
         elif cmd == "print-indent":
-            if len(parts) != 1:
-                raise ValueError("print-indent")
-            return ShowCommand(self.html, "text")
+            if len(parts) < 1 or len(parts) > 2:
+                raise ValueError("print-indent [indent]")
+            return ShowCommand(*args)
         elif cmd == "print-tree":
             if len(parts) != 1:
                 raise ValueError("print-tree")

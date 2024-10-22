@@ -5,11 +5,12 @@ from model.visitor import Visitor
 
 
 class HtmlVisitor(Visitor):
-    def __init__(self):
+    def __init__(self, indent):
         self.s = ""
+        self.pf = " " * indent
 
     def visit(self, node, indent=0, is_last=True, mask=0):
-        self.s += "  " * indent
+        self.s += self.pf * indent
         if node.is_text:
             self.s += node.tag + "\n"
         else:
@@ -17,7 +18,7 @@ class HtmlVisitor(Visitor):
         for child in node.children:
             child.accept(self, indent + 1)
         if not node.is_text:
-            self.s += "  " * indent
+            self.s += self.pf * indent
             self.s += "<\\" + node.tag + ">\n"
     
     def get_content(self):

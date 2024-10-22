@@ -12,4 +12,4 @@ class SpellCheckCommand(Command):
         self.html = html
         
     def execute(self):
-        self.html.spell_check()
+        print(self.html.spell_check())

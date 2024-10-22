@@ -6,7 +6,7 @@ from model.myhtml import Html
 
 
 class ShowCommand(Command):
-    def __init__(self, html, type):
+    def __init__(self, html, type=None):
         self.html = html
         self.type = type
         
@@ -14,4 +14,5 @@ class ShowCommand(Command):
         if self.type == "tree":
             print(self.html.as_tree())
         else:
-            print(self.html.as_text())
+            indent = 2 if self.type == None else int(self.type)
+            print(self.html.as_text(indent))
