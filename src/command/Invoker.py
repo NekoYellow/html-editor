@@ -2,7 +2,6 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from command.command import Command, UndoableCommand
-from console.show_command import ShowCommand
 
 class Invoker:
     def __init__(self):
