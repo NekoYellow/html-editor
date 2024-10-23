@@ -44,7 +44,7 @@ class Html:
             text_node = HtmlNode(text)
             text_node.is_text = True
             node.add_child(text_node)
-        self.parent[tar].add_child(node, self.parent[tar].children.index(node))
+        self.parent[tar].add_child(node, self.parent[tar].children.index(tar))
     
     def append(self, tag, id, text, target):
         if self.id2node.get(self._tag2id(tag), None) != None:
@@ -67,7 +67,8 @@ class Html:
     def remove(self, target):
         if self.id2node.get(target, None) == None:
             raise ValueError(f"target {target} does not exist")
-        self.parent[target].del_child(target)
+        tar = self.id2node[target]
+        self.parent[tar].del_child(tar)
     
     def find(self, target):
         if self.id2node.get(target, None) == None:
