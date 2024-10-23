@@ -4,7 +4,8 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
 
-from myhtml.node import HtmlNode
+from model.node import HtmlNode
+from model.myhtml import Html
 
 
 class HtmlNodeTestCase(unittest.TestCase):
@@ -35,5 +36,101 @@ class HtmlNodeTestCase(unittest.TestCase):
         self.assertEqual(str(node), "A")
 
 
+# Tree structure for testing
+# t0#i0
+# ├── t11#i11
+# │   └── t21#i21
+# └── t12#i12
+class HtmlTestCase(unittest.TestCase):
+    def testSet(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        ref = HtmlNode("t0", "i0")
+        ref.add_child(HtmlNode("t11", "i11"))
+        ref.add_child(HtmlNode("t12", "i12"))
+        ref.children[0].add_child(HtmlNode("t21", "i21"))
+        self.assertTrue(self.cmp_tree(tree.root, ref))
+        
+    def testInsertSimple(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        tree.insert("t115", "i115", "", "i12")
+        ref = HtmlNode("t0", "i0")
+        ref.add_child(HtmlNode("t11", "i11"))
+        ref.add_child(HtmlNode("t115", "i115"))
+        ref.add_child(HtmlNode("t12", "i12"))
+        ref.children[0].add_child(HtmlNode("t21", "i21"))
+        self.assertTrue(self.cmp_tree(tree.root, ref))
+    
+    def testInsertWithText(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        tree.insert("t20", "i20", "sample-text", "i21")
+        ref = HtmlNode("t0", "i0")
+        ref.add_child(HtmlNode("t11", "i11"))
+        ref.add_child(HtmlNode("t12", "i12"))
+        ref.children[0].add_child(HtmlNode("t20", "i20"))
+        ref.children[0].add_child(HtmlNode("t21", "i21"))
+        ref.children[0].children[0].add_child(HtmlNode("sample-text"))
+        ref.children[0].children[0].children[0].is_text = True
+        self.assertTrue(self.cmp_tree(tree.root, ref))
+    
+    def testInsertFail(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        self.assertRaises(ValueError, lambda : tree.insert("html", "i", "", "i0"))
+        self.assertRaises(ValueError, lambda : tree.insert("t", "i", "", "i99"))
+    
+    def testAppend(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        tree.append("t22", "i22", "", "i11")
+        ref = HtmlNode("t0", "i0")
+        ref.add_child(HtmlNode("t11", "i11"))
+        ref.add_child(HtmlNode("t12", "i12"))
+        ref.children[0].add_child(HtmlNode("t21", "i21"))
+        ref.children[0].add_child(HtmlNode("t22", "i22"))
+        self.assertTrue(self.cmp_tree(tree.root, ref))
+    
+    def testAppendFail(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        self.assertRaises(ValueError, lambda : tree.append("t", "i", "", "t0"))
+    
+    def testRemove(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        tree.remove("i12")
+        ref = HtmlNode("t0", "i0")
+        ref.add_child(HtmlNode("t11", "i11"))
+        ref.children[0].add_child(HtmlNode("t21", "i21"))
+        self.assertTrue(self.cmp_tree(tree.root, ref))
+    
+    def testRemoveFail(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        self.assertRaises(ValueError, lambda : tree.remove("i"))
+    
+    def testFind(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        self.assertTrue(tree.find("i21") == (tree.root.children[0].children[0], tree.root.children[0]))
+
+    def testFindFail(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        self.assertRaises(ValueError, lambda : tree.find("i99"))
+
+    def cmp_tree(self, src, tgt):
+        if str(src) != str(tgt):
+            return False
+        if len(src.children) != len(tgt.children):
+            return False
+        res = True
+        for s, t in zip(src.children, tgt.children):
+            res &= self.cmp_tree(s, t)
+        return res
+
+
 if __name__ == '__main__':  
-        unittest.main()
+    unittest.main()
