@@ -6,6 +6,8 @@ from model.myhtml import Html
 
 
 class ShowCommand(Command):
+    """Show the html in tree or text format"""
+
     def __init__(self, html, type=None):
         self.html = html
         self.type = type

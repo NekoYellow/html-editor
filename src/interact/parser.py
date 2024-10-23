@@ -15,6 +15,8 @@ from file.save_command import SaveCommand
 
 
 class CommandParser:
+    """Parses commands read from command line"""
+
     def __init__(self, html):
         self.html = html
 

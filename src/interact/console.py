@@ -6,6 +6,8 @@ from command.invoker import CommandInvoker
 from interact.parser import CommandParser
 
 
+"""A console accepting input from command line"""
+
 if __name__ == "__main__":
     html = Html()
     parser = CommandParser(html)

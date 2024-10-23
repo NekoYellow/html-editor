@@ -1,3 +1,4 @@
+"""Helper classes to load from and dump to some file"""
 
 class Loader:
     @staticmethod

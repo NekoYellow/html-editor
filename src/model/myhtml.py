@@ -11,6 +11,8 @@ from model.spellcheck_visitor import SpellcheckVisitor
 
 
 class Html:
+    """Wraps a html file"""
+    
     def __init__(self):
         self.id2node = {} # id -> node
         self.parent = {} # node -> parent

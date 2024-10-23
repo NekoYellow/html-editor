@@ -5,6 +5,8 @@ from model.visitor import Visitor
 
 
 class HtmlVisitor(Visitor):
+    """Concrete Visitor that gets the html content in text format"""
+    
     def __init__(self, indent):
         self.s = ""
         self.pf = " " * indent

@@ -7,6 +7,8 @@ from model.node import HtmlNode
 
 
 class MyHtmlParser(HTMLParser):
+    """Parses html from string via html.parser.HTMLParser in std"""
+    
     def __init__(self):
         super().__init__()
         self.root = HtmlNode("", "") # dummy root

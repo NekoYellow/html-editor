@@ -7,6 +7,8 @@ from model.visitor import Visitor
 
 
 class SpellcheckVisitor(Visitor):
+    """Concrete Visitor that performs spell checking on the contents inside html"""
+    
     def __init__(self):
         self.s = ""
 

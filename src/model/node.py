@@ -5,6 +5,8 @@ from model.visitor import Node
 
 
 class HtmlNode(Node):
+    """Represents an element in html"""
+    
     def __init__(self, tag, id=None, *children):
         self._tag = tag
         self._id = id

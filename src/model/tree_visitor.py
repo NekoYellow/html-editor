@@ -5,6 +5,8 @@ from model.visitor import Visitor
 
 
 class TreeVisitor(Visitor):
+    """Concrete Visitor that gets the html content in tree format"""
+    
     def __init__(self):
         self.s = ""
 
