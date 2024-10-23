@@ -29,6 +29,8 @@ class Html:
         self._get_mappings()
     
     def insert(self, tag, id, text, target):
+        if self.id2node.get(self._tag2id(tag), None) != None:
+            raise ValueError(f"tag {tag} is reserved")
         if self.id2node.get(id, None) != None:
             raise ValueError(f"id {id} already exists")
         if self.id2node.get(target, None) == None:
@@ -45,6 +47,8 @@ class Html:
         self.parent[tar].add_child(node, self.parent[tar].children.index(node))
     
     def append(self, tag, id, text, target):
+        if self.id2node.get(self._tag2id(tag), None) != None:
+            raise ValueError(f"tag {tag} is reserved")
         if self.id2node.get(id, None) != None:
             raise ValueError(f"id {id} already exists")
         if self.id2node.get(target, None) == None:
