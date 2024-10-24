@@ -106,12 +106,16 @@ class Html:
         if self.id2node.get(target, None) == None:
             raise HtmlOpError(f"target {target} does not exist")
         tar = self.id2node[target]
-        if len(tar.children) == 0 or not tar.children[0].is_text:
-            raise HtmlOpError(f"target {target} does not have text")
         if text == "":
-            tar.children.pop(0)
+            if len(tar.children) > 0 and tar.children[0].is_text:
+                tar.children.pop(0)
         else:
-            tar.children[0].tag = text
+            if len(tar.children) > 0 and tar.children[0].is_text:
+                tar.children[0].tag = text
+            else:
+                text_node = HtmlNode(text)
+                text_node.is_text = True
+                tar.children.insert(0, text_node)
     
     def get_text_of(self, target):
         if self.id2node.get(target, None) == None:

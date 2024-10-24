@@ -11,7 +11,6 @@ from command.delete_command import DeleteCommand
 from command.undo_command import UndoCommand
 from command.redo_command import RedoCommand
 from interact.show_command import ShowCommand
-from interact.spellcheck_command import SpellCheckCommand
 from file.read_command import ReadCommand
 from file.save_command import SaveCommand
 

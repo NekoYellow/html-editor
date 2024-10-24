@@ -144,11 +144,13 @@ class HtmlTestCase(unittest.TestCase):
         ref = Html()
         ref.set("<t0 id=i0><t11 id=i11><t21 id=i21>Xxx yy z</t21></t11><t12 id=i12></t12></t0>")
         self.assertTrue(self.cmp_tree(tree.root, ref.root))
+        tree.update_text("i0", "AA")
+        ref.set("<t0 id=i0>AA<t11 id=i11><t21 id=i21>Xxx yy z</t21></t11><t12 id=i12></t12></t0>")
+        self.assertTrue(self.cmp_tree(tree.root, ref.root))
 
     def testEditTextFail(self):
         tree = Html()
         tree.set("<t0 id=i0><t11 id=i11><t21 id=i21>A bb ccc</t21></t11><t12 id=i12></t12></t0>")
-        self.assertRaises(HtmlOpError, lambda : tree.update_text("i0", "TT"))
         self.assertRaises(HtmlOpError, lambda : tree.update_text("i99", "TT"))
 
     def cmp_tree(self, src, tgt):

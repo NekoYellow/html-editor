@@ -14,7 +14,6 @@ from command.delete_command import DeleteCommand
 from command.undo_command import UndoCommand
 from command.redo_command import RedoCommand
 from interact.show_command import ShowCommand
-from interact.spellcheck_command import SpellCheckCommand
 from file.read_command import ReadCommand
 from file.save_command import SaveCommand
 
@@ -61,7 +60,7 @@ class CommandParserTestCase(unittest.TestCase):
     def testSpellCheck(self):
         parser = CommandParser(self.html)
         self.assertRaises(InvalidCommandError, lambda : parser.parse("spell-check a"))
-        self.assertIsInstance(parser.parse("spell-check"), SpellCheckCommand)
+        self.assertIsInstance(parser.parse("spell-check"), ShowCommand)
     
     def testRead(self):
         parser = CommandParser(self.html)
