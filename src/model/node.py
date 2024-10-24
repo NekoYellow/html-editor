@@ -27,6 +27,12 @@ class HtmlNode(Node):
     def id(self):
         return self._id
     
+    @id.setter
+    def id(self, value):
+        if not isinstance(value, str):
+            raise TypeError("tag should be str")
+        self._id = value
+    
     @property
     def is_text(self):
         return self._is_text

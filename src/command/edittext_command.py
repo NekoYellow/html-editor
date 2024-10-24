@@ -8,9 +8,9 @@ from model.myhtml import Html
 class EdittextCommand(UndoableCommand):
     """Update text of specified element with given id"""
 
-    def __init__(self, html, element, text=""):
+    def __init__(self, html, id, text=""):
         self.html = html
-        self.element = element
+        self.id = id
         self.oldtext = ""
         self.newtext = text
         

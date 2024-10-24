@@ -90,6 +90,33 @@ class Html:
         node = self.id2node[target]
         return node, self.parent[node]
     
+    def update_id(self, oldid, newid):
+        if self.id2node.get(oldid, None) == None:
+            raise HtmlOpError(f"target {oldid} does not exist")
+        tar = self.id2node[oldid]
+        tar.id = newid
+        self.id2node[newid] = tar
+        self.id2node.pop(oldid)
+    
+    def update_text(self, target, text):
+        if self.id2node.get(target, None) == None:
+            raise HtmlOpError(f"target {target} does not exist")
+        tar = self.id2node[target]
+        if len(tar.children) == 0 or not tar.children[0].is_text:
+            raise HtmlOpError(f"target {target} does not have text")
+        if text == "":
+            tar.children.pop(0)
+        else:
+            tar.children[0].tag = text
+    
+    def get_text_of(self, target):
+        if self.id2node.get(target, None) == None:
+            raise HtmlOpError(f"target {target} does not exist")
+        tar = self.id2node[target]
+        if len(tar.children) == 0 or not tar.children[0].is_text:
+            raise HtmlOpError(f"target {target} does not have text")
+        return tar.children[0].tag
+    
     def as_tree(self):
         visitor = TreeVisitor()
         self.root.accept(visitor)
