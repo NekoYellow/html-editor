@@ -8,6 +8,8 @@ from command.append_command import AppendCommand
 from command.editid_command import EditidCommand
 from command.edittext_command import EdittextCommand
 from command.delete_command import DeleteCommand
+from command.undo_command import UndoCommand
+from command.redo_command import RedoCommand
 from interact.show_command import ShowCommand
 from interact.spellcheck_command import SpellCheckCommand
 from file.read_command import ReadCommand
@@ -72,5 +74,13 @@ class CommandParser:
             if len(parts) != 2:
                 raise InvalidCommandError("save filepath")
             return SaveCommand(*args)
+        elif cmd == "undo":
+            if len(parts) != 1:
+                raise InvalidCommandError("undo")
+            return UndoCommand()
+        elif cmd == "redo":
+            if len(parts) != 1:
+                raise InvalidCommandError("redo")
+            return RedoCommand()
         else:
             raise InvalidCommandError(" ".join(["unknown command:", *parts]))

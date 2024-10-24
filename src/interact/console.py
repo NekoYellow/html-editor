@@ -22,6 +22,6 @@ if __name__ == "__main__":
             continue
         try:
             cmd = parser.parse(cmd_str)
-            invoker.store_and_execute(cmd)
+            invoker.handle(cmd)
         except ValueError as e:
             print(e)
