@@ -11,6 +11,8 @@ from command.append_command import AppendCommand
 from command.editid_command import EditidCommand
 from command.edittext_command import EdittextCommand
 from command.delete_command import DeleteCommand
+from command.undo_command import UndoCommand
+from command.redo_command import RedoCommand
 from interact.show_command import ShowCommand
 from interact.spellcheck_command import SpellCheckCommand
 from file.read_command import ReadCommand
@@ -70,6 +72,16 @@ class CommandParserTestCase(unittest.TestCase):
         parser = CommandParser(self.html)
         self.assertRaises(InvalidCommandError, lambda : parser.parse("save"))
         self.assertIsInstance(parser.parse("save a"), SaveCommand)
+        
+    def testUndo(self):
+        parser = CommandParser(self.html)
+        self.assertRaises(InvalidCommandError, lambda : parser.parse("undo a"))
+        self.assertIsInstance(parser.parse("undo"), UndoCommand)
+    
+    def testRedo(self):
+        parser = CommandParser(self.html)
+        self.assertRaises(InvalidCommandError, lambda : parser.parse("redo a"))
+        self.assertIsInstance(parser.parse("redo"), RedoCommand)
     
     def testUnknown(self):
         parser = CommandParser(self.html)
