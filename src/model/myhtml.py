@@ -130,7 +130,7 @@ class Html:
         self.root.accept(visitor)
         return visitor.get_content()
     
-    def as_text(self, indent):
+    def as_text(self, indent=2):
         visitor = HtmlVisitor(indent)
         self.root.accept(visitor)
         return visitor.get_content()
