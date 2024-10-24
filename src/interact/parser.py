@@ -14,8 +14,8 @@ from file.read_command import ReadCommand
 from file.save_command import SaveCommand
 
 
-class InvalidCommandError(Exception):
-    ...
+class InvalidCommandError(ValueError):
+    pass
 
 
 class CommandParser:
