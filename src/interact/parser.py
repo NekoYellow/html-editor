@@ -14,6 +14,10 @@ from file.read_command import ReadCommand
 from file.save_command import SaveCommand
 
 
+class InvalidCommandError(Exception):
+    ...
+
+
 class CommandParser:
     """Parses commands read from command line"""
 
@@ -25,43 +29,48 @@ class CommandParser:
         cmd, args = parts[0].lower(), [self.html] + parts[1:]
         if cmd == "insert":
             if len(parts) < 4 or len(args) > 5:
-                raise ValueError("insert tagName idValue insertLocation [textContent]")
+                raise InvalidCommandError("insert tagName idValue insertLocation [textContent]")
             return InsertCommand(*args)
         elif cmd == "append":
             if len(parts) < 4 or len(parts) > 5:
-                raise ValueError("append tagName idValue parentElement [textContent]")
+                raise InvalidCommandError("append tagName idValue parentElement [textContent]")
             return AppendCommand(*args)
         elif cmd == "edit-id":
             if len(parts) != 3:
-                raise ValueError("edit-id oldId newId")
+                raise InvalidCommandError("edit-id oldId newId")
             return EditidCommand(*args)
         elif cmd == "edit-text":
             if len(parts) < 2 or len(parts) > 3:
-                raise ValueError("edit-text element [newTextContent]")
+                raise InvalidCommandError("edit-text element [newTextContent]")
             return EdittextCommand(*args)
         elif cmd == "delete":
             if len(parts) != 2:
-                raise ValueError("delete element")
+                raise InvalidCommandError("delete element")
             return DeleteCommand(*args)
         elif cmd == "print-indent":
             if len(parts) < 1 or len(parts) > 2:
-                raise ValueError("print-indent [indent]")
+                raise InvalidCommandError("print-indent [indent]")
+            if len(parts) == 2:
+                try:
+                    _ = int(parts[1])
+                except ValueError:
+                    raise InvalidCommandError("indent should be integer")
             return ShowCommand(*args)
         elif cmd == "print-tree":
             if len(parts) != 1:
-                raise ValueError("print-tree")
+                raise InvalidCommandError("print-tree")
             return ShowCommand(self.html, "tree")
         elif cmd == "spell-check":
             if len(parts) != 1:
-                raise ValueError("spell-check")
+                raise InvalidCommandError("spell-check")
             return SpellCheckCommand(self.html)
         elif cmd == "read":
             if len(parts) != 2:
-                raise ValueError("read filepath")
+                raise InvalidCommandError("read filepath")
             return ReadCommand(*args)
         elif cmd == "save":
             if len(parts) != 2:
-                raise ValueError("save filepath")
+                raise InvalidCommandError("save filepath")
             return SaveCommand(*args)
         else:
-            raise ValueError(" ".join(["unknown command:", *parts]))
+            raise InvalidCommandError(" ".join(["unknown command:", *parts]))
