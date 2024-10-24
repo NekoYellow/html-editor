@@ -120,6 +120,36 @@ class HtmlTestCase(unittest.TestCase):
         tree = Html()
         tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
         self.assertRaises(HtmlOpError, lambda : tree.find("i99"))
+    
+    def testEditId(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        tree.update_id("i0", "i00")
+        ref = HtmlNode("t0", "i00")
+        ref.add_child(HtmlNode("t11", "i11"))
+        ref.add_child(HtmlNode("t12", "i12"))
+        ref.children[0].add_child(HtmlNode("t21", "i21"))
+        self.assertTrue(self.cmp_tree(tree.root, ref))
+    
+    def testEditIdFail(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
+        self.assertRaises(HtmlOpError, lambda : tree.update_id("i99", "i9"))
+        self.assertRaises(HtmlOpError, lambda : tree.update_id("i11", "i0"))
+    
+    def testEditText(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21>A bb ccc</t21></t11><t12 id=i12></t12></t0>")
+        tree.update_text("i21", "Xxx yy z")
+        ref = Html()
+        ref.set("<t0 id=i0><t11 id=i11><t21 id=i21>Xxx yy z</t21></t11><t12 id=i12></t12></t0>")
+        self.assertTrue(self.cmp_tree(tree.root, ref.root))
+
+    def testEditTextFail(self):
+        tree = Html()
+        tree.set("<t0 id=i0><t11 id=i11><t21 id=i21>A bb ccc</t21></t11><t12 id=i12></t12></t0>")
+        self.assertRaises(HtmlOpError, lambda : tree.update_text("i0", "TT"))
+        self.assertRaises(HtmlOpError, lambda : tree.update_text("i99", "TT"))
 
     def cmp_tree(self, src, tgt):
         if str(src) != str(tgt):
