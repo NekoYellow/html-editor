@@ -67,7 +67,7 @@ class CommandParser:
         elif cmd == "spell-check":
             if len(parts) != 1:
                 raise InvalidCommandError("spell-check")
-            return SpellCheckCommand(self.html)
+            return ShowCommand(self.html.spell_check())
         elif cmd == "read":
             if len(parts) != 2:
                 raise InvalidCommandError("read filepath")
