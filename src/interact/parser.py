@@ -54,14 +54,16 @@ class CommandParser:
                 raise InvalidCommandError("print-indent [indent]")
             if len(parts) == 2:
                 try:
-                    _ = int(parts[1])
+                    indent = int(parts[1])
                 except ValueError:
                     raise InvalidCommandError("indent should be integer")
-            return ShowCommand(*args)
+            else:
+                indent = 2
+            return ShowCommand(self.html.as_text(indent))
         elif cmd == "print-tree":
             if len(parts) != 1:
                 raise InvalidCommandError("print-tree")
-            return ShowCommand(self.html, "tree")
+            return ShowCommand(self.html.as_tree())
         elif cmd == "spell-check":
             if len(parts) != 1:
                 raise InvalidCommandError("spell-check")
