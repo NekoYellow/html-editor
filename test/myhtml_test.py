@@ -5,7 +5,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
 
 from model.node import HtmlNode
-from model.myhtml import Html
+from model.myhtml import Html, HtmlOpError
 
 
 class HtmlNodeTestCase(unittest.TestCase):
@@ -78,8 +78,8 @@ class HtmlTestCase(unittest.TestCase):
     def testInsertFail(self):
         tree = Html()
         tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
-        self.assertRaises(ValueError, lambda : tree.insert("html", "i", "", "i0"))
-        self.assertRaises(ValueError, lambda : tree.insert("t", "i", "", "i99"))
+        self.assertRaises(HtmlOpError, lambda : tree.insert("html", "i", "", "i0"))
+        self.assertRaises(HtmlOpError, lambda : tree.insert("t", "i", "", "i99"))
     
     def testAppend(self):
         tree = Html()
@@ -95,7 +95,7 @@ class HtmlTestCase(unittest.TestCase):
     def testAppendFail(self):
         tree = Html()
         tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
-        self.assertRaises(ValueError, lambda : tree.append("t", "i", "", "t0"))
+        self.assertRaises(HtmlOpError, lambda : tree.append("t", "i", "", "t0"))
     
     def testRemove(self):
         tree = Html()
@@ -109,7 +109,7 @@ class HtmlTestCase(unittest.TestCase):
     def testRemoveFail(self):
         tree = Html()
         tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
-        self.assertRaises(ValueError, lambda : tree.remove("i"))
+        self.assertRaises(HtmlOpError, lambda : tree.remove("i"))
     
     def testFind(self):
         tree = Html()
@@ -119,7 +119,7 @@ class HtmlTestCase(unittest.TestCase):
     def testFindFail(self):
         tree = Html()
         tree.set("<t0 id=i0><t11 id=i11><t21 id=i21></t21></t11><t12 id=i12></t12></t0>")
-        self.assertRaises(ValueError, lambda : tree.find("i99"))
+        self.assertRaises(HtmlOpError, lambda : tree.find("i99"))
 
     def cmp_tree(self, src, tgt):
         if str(src) != str(tgt):

@@ -10,6 +10,10 @@ from model.html_visitor import HtmlVisitor
 from model.spellcheck_visitor import SpellcheckVisitor
 
 
+class HtmlOpError(ValueError):
+    pass
+
+
 class Html:
     """Wraps a html file"""
     
@@ -32,14 +36,14 @@ class Html:
     
     def insert(self, tag, id, text, target):
         if self.id2node.get(self._tag2id(tag), None) != None:
-            raise ValueError(f"tag {tag} is reserved")
+            raise HtmlOpError(f"tag {tag} is reserved")
         if self.id2node.get(id, None) != None:
-            raise ValueError(f"id {id} already exists")
+            raise HtmlOpError(f"id {id} already exists")
         if self.id2node.get(target, None) == None:
-            raise ValueError(f"target {target} does not exist")
+            raise HtmlOpError(f"target {target} does not exist")
         tar = self.id2node[target]
         if self.parent.get(tar, None) == None:
-            raise ValueError(f"cannot insert before target {target}")
+            raise HtmlOpError(f"cannot insert before target {target}")
 
         node = HtmlNode(tag, id)
         if text != "":
@@ -50,11 +54,11 @@ class Html:
     
     def append(self, tag, id, text, target):
         if self.id2node.get(self._tag2id(tag), None) != None:
-            raise ValueError(f"tag {tag} is reserved")
+            raise HtmlOpError(f"tag {tag} is reserved")
         if self.id2node.get(id, None) != None:
-            raise ValueError(f"id {id} already exists")
+            raise HtmlOpError(f"id {id} already exists")
         if self.id2node.get(target, None) == None:
-            raise ValueError(f"target {target} does not exist")
+            raise HtmlOpError(f"target {target} does not exist")
 
         node = HtmlNode(tag, id)
         if text != "":
@@ -68,13 +72,13 @@ class Html:
     
     def remove(self, target):
         if self.id2node.get(target, None) == None:
-            raise ValueError(f"target {target} does not exist")
+            raise HtmlOpError(f"target {target} does not exist")
         tar = self.id2node[target]
         self.parent[tar].del_child(tar)
     
     def find(self, target):
         if self.id2node.get(target, None) == None:
-            raise ValueError(f"target {target} does not exist")
+            raise HtmlOpError(f"target {target} does not exist")
         node = self.id2node[target]
         return node, self.parent[node]
     
