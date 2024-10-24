@@ -91,8 +91,12 @@ class Html:
         return node, self.parent[node]
     
     def update_id(self, oldid, newid):
+        if oldid == newid:
+            return
         if self.id2node.get(oldid, None) == None:
             raise HtmlOpError(f"target {oldid} does not exist")
+        if self.id2node.get(newid, None) != None:
+            raise HtmlOpError(f"new id {newid} already exists")
         tar = self.id2node[oldid]
         tar.id = newid
         self.id2node[newid] = tar
