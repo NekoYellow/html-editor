@@ -13,24 +13,15 @@ class SpellcheckVisitor(Visitor):
         self.s = ""
 
     def visit(self, node, indent=0, is_last=True, mask=0):
-        prefix = ""
-        if indent > 0:
-            for i in range(indent-1):
-                prefix += "    " if (mask >> i) & 1 else "│   "
-            prefix += ("└── " if is_last else "├── ")
-        self.s += prefix
-        
         if node.is_text:
             original = node.tag
             corrected = str(TextBlob(original).correct())
-            differ = Differ()
-            diff = differ.compare(original.split(), corrected.split())
+            original = list(map(lambda s: s + '\n', original.split()))
+            corrected = list(map(lambda s: s + '\n', corrected.split()))
+            diff = Differ().compare(original, corrected)
             for d in diff:
-                self.s += " " + d.replace('\n', '')
-        else:
-            self.s += str(node)
-        
-        self.s += "\n"
+                if d.startswith(('+', '-', '?')):
+                    self.s += d
 
         for i, ch in enumerate(node.children):
             last = (i == len(node.children) - 1)
