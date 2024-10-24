@@ -8,7 +8,7 @@ python3 src/interact/console.py
 ```
 Testing on all test cases:
 ```sh
-python -m unittest discover -s ./test -p "*_test.py"
+python3 -m unittest discover -s ./test -p "*_test.py"
 ```
 
 
