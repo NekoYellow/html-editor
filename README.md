@@ -298,7 +298,7 @@ Visitor <|-- ConcreteVisitor
 @enduml
 ```
 
-A typical Visior pattern solves the problem of performing different operations on every node of a graph. The graph may consists of nodes of different types, and each operation need to be handled differently on different types of nodes. In Visitor pattern, a node will tell the visitor its type when accepting a visitor, which has a set of methods to handle each type, as the node certainly knows its own type. Also the visitor may stay unaware of the graph sturcture, as in `node.accept()` we can do something like
+A typical Visitor pattern solves the problem of performing different operations on every node of a graph. The graph may consists of nodes of different types, and each operation need to be handled differently on different types of nodes. In Visitor pattern, a node will tell the visitor its type when accepting a visitor, which has a set of methods to handle each type, as the node certainly knows its own type. Also the visitor may stay unaware of the graph sturcture, as in `node.accept()` we can do something like
 ```
 accept(visitor):
   visiter.visit(this)
