@@ -12,8 +12,9 @@ if __name__ == "__main__":
     html = Html()
     parser = CommandParser(html)
     invoker = CommandInvoker()
+    print("HTML editor started")
     while True:
-        print("Enter Command: ")
+        print("> ", end='')
         cmd_str = input().strip()
         if cmd_str == "exit":
             break
