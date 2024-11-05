@@ -132,6 +132,7 @@ package model {
         +visit(node: Node)
     }
 
+    Html --> HtmlNode
     Html --> HtmlVisitor
     Html --> TreeVisitor
     Html --> SpellCheckVisitor
